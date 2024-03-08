@@ -82,7 +82,8 @@ export default function MultiFilters() {
   const [prefectureValue, setPrefectureValue] = useState();
   const [items, setData] = useState("");
 
-  const baseUrl = "http://localhost:5000/";
+  const baseUrl = "https://tabelog.onrender.com/";
+  // const baseUrl = "http://localhost:5000/";
   const sortOptions = ["Ratings Ascending", "Ratings Descending"];
 
   const getItems = () => {
@@ -116,80 +117,13 @@ export default function MultiFilters() {
       getItems();
     }, 10000);
     return () => clearInterval(dataTimer);
-  }, []); // <- this empty dependency array
+  }, []);
 
   const [filteredItems, setFilteredItems] = useState([items]);
 
-  // const handleMinRatingFilterButtonClick = (selectedCategory) => {
-  //   if (selectedMinRatingFilters.includes(selectedCategory)) {
-  //     let filters = selectedMinRatingFilters.filter(
-  //       (el) => el !== selectedCategory
-  //     );
-  //     setMinRatingSelectedFilters(filters);
-  //   } else {
-  //     setMinRatingSelectedFilters([
-  //       ...selectedMinRatingFilters,
-  //       selectedCategory,
-  //     ]);
-  //   }
-  // };
-
-  // const handleMaxRatingFilterButtonClick = (selectedCategory) => {
-  //   if (selectedMaxRatingFilters.includes(selectedCategory)) {
-  //     let filters = selectedMaxRatingFilters.filter(
-  //       (el) => el !== selectedCategory
-  //     );
-  //     setMaxRatingSelectedFilters(filters);
-  //   } else {
-  //     setMaxRatingSelectedFilters([
-  //       ...selectedMaxRatingFilters,
-  //       selectedCategory,
-  //     ]);
-  //   }
-  // };
-
-  // const handleMinReviewFilterButtonClick = (selectedCategory) => {
-  //   if (selectedMinReviewFilters.includes(selectedCategory)) {
-  //     let filters = selectedMinReviewFilters.filter(
-  //       (el) => el !== selectedCategory
-  //     );
-  //     setMinReviewSelectedFilters(filters);
-  //   } else {
-  //     setMinReviewSelectedFilters([
-  //       ...selectedMinReviewFilters,
-  //       selectedCategory,
-  //     ]);
-  //   }
-  // };
-
-  // const handleMaxReviewFilterButtonClick = (selectedCategory) => {
-  //   if (selectedMaxReviewFilters.includes(selectedCategory)) {
-  //     let filters = selectedMaxReviewFilters.filter(
-  //       (el) => el !== selectedCategory
-  //     );
-  //     setMaxReviewSelectedFilters(filters);
-  //   } else {
-  //     setMaxReviewSelectedFilters([
-  //       ...selectedMaxReviewFilters,
-  //       selectedCategory,
-  //     ]);
-  //   }
-  // };
-
   useEffect(() => {
     filterItems();
-    // handleChange();
-  }, [
-    // selectedMinRatingFilters,
-    // selectedMaxRatingFilters,
-    // selectedMinReviewFilters,
-    // selectedMaxReviewFilters,
-    storeName,
-    sortValue,
-    prefectureValue,
-    ratingRange,
-    reviewRange,
-  ]);
+  }, [storeName, sortValue, prefectureValue, ratingRange, reviewRange]);
 
   const filterItems = () => {
     axios
@@ -204,8 +138,6 @@ export default function MultiFilters() {
         },
       })
       .then((responses) => {
-        // console.log(responses.data);
-
         setFilteredItems(
           responses.data.map((response) => {
             const container = {};
@@ -225,58 +157,7 @@ export default function MultiFilters() {
           })
         );
       });
-
-    // console.log(
-    //   "Rating min: " + selectedMinRatingFilters,
-    //   "Rating max: " + selectedMaxRatingFilters,
-    //   "Reviews min: " + selectedMinReviewFilters,
-    //   "Reviews max: " + selectedMaxReviewFilters
-    // );
   };
-
-  // const filterReviewItems = () => {
-  //   if (
-  //     selectedMinReviewFilters.length > 0 &&
-  //     selectedMaxReviewFilters.length > 0
-  //   ) {
-  //     let tempMinItems = selectedMinReviewFilters.map((selectedMinCategory) => {
-  //       let tempMin = items.filter((item) => item.score >= selectedMinCategory);
-  //       return tempMin;
-  //     });
-
-  //     let tempMaxItems = selectedMaxReviewFilters.map((selectedMaxCategory) => {
-  //       let tempMax = items.filter((item) => item.score <= selectedMaxCategory);
-  //       return tempMax;
-  //     });
-
-  //     tempMinItems = tempMinItems.flat();
-  //     tempMaxItems = tempMaxItems.flat();
-  //     let tempItems = tempMaxItems.filter((x) => tempMinItems.includes(x));
-
-  //     tempItems = [...new Set(tempItems.flat())];
-  //     setFilteredItems(tempItems);
-  //   } else if (selectedMinReviewFilters.length > 0) {
-  //     let tempItems = selectedMinReviewFilters.map((selectedCategory) => {
-  //       let temp = items.filter((item) => item.score >= selectedCategory);
-  //       return temp;
-  //     });
-  //     tempItems = [...new Set(tempItems.flat())];
-  //     setFilteredItems(tempItems.flat());
-  //   } else if (selectedMaxReviewFilters.length > 0) {
-  //     let tempItems = selectedMaxReviewFilters.map((selectedCategory) => {
-  //       let temp = items.filter((item) => item.score <= selectedCategory);
-  //       return temp;
-  //     });
-  //     tempItems = [...new Set(tempItems.flat())];
-  //     setFilteredItems(tempItems.flat());
-  //   } else {
-  //     setFilteredItems([...items]);
-  //   }
-  //   console.log(
-  //     "min: " + selectedMinReviewFilters,
-  //     "max: " + selectedMaxReviewFilters
-  //   );
-  // };
 
   return (
     <div>
@@ -352,62 +233,6 @@ export default function MultiFilters() {
           <h2>Select Prefecture</h2>
         </td>
       </tr>
-
-      {/* <div className="buttons-container">
-        {minRatingFilters.map((category, idx) => (
-          <button
-            onClick={() => handleMinRatingFilterButtonClick(category)}
-            className={`button ${
-              selectedMinRatingFilters?.includes(category) ? "active" : ""
-            }`}
-            key={`minRatingFilters-${idx}`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      <div className="buttons-container">
-        {maxRatingFilters.map((category, idx) => (
-          <button
-            onClick={() => handleMaxRatingFilterButtonClick(category)}
-            className={`button ${
-              selectedMaxRatingFilters?.includes(category) ? "active" : ""
-            }`}
-            key={`maxRatingFilters-${idx}`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      <div className="buttons-container">
-        {minReviewFilters.map((category, idx) => (
-          <button
-            onClick={() => handleMinReviewFilterButtonClick(category)}
-            className={`button ${
-              selectedMinReviewFilters?.includes(category) ? "active" : ""
-            }`}
-            key={`minReviewFilters-${idx}`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      <div className="buttons-container">
-        {maxReviewFilters.map((category, idx) => (
-          <button
-            onClick={() => handleMaxReviewFilterButtonClick(category)}
-            className={`button ${
-              selectedMaxReviewFilters?.includes(category) ? "active" : ""
-            }`}
-            key={`maxReviewFilters-${idx}`}
-          >
-            {category}
-          </button>
-        ))}
-      </div> */}
 
       <div className="items-container">
         {filteredItems.map((item, idx) => (
