@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-select": "^5.8.0",
+    "react-slider": "^2.0.6"
+  }
+}
