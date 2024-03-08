@@ -40,10 +40,10 @@ app.get("/restaurants/english", async (req, res) => {
     "english: ",
     req.query.store_name,
     req.query.sort_value,
-    req.query.ratingMin,
-    req.query.ratingMax,
-    req.query.reviewMin,
-    req.query.reviewMax
+    req.query.rating_min,
+    req.query.rating_max,
+    req.query.review_min,
+    req.query.review_max
   );
 
   let store_name =
@@ -51,11 +51,14 @@ app.get("/restaurants/english", async (req, res) => {
   console.log("sort: " + req.query.sort_value);
   let sort_value =
     req.query.sort_value === undefined ? "Select Sort" : req.query.sort_value;
-  let ratingMin = req.query.ratingMin === undefined ? 0 : req.query.ratingMin;
-  let ratingMax = req.query.ratingMax === undefined ? 5 : req.query.ratingMax;
-  let reviewMin = req.query.reviewMin === undefined ? 0 : req.query.reviewMin;
-  let reviewMax =
-    req.query.reviewMax === undefined ? 10000 : req.query.reviewMax;
+  let rating_min =
+    req.query.rating_min === undefined ? 0 : req.query.rating_min;
+  let rating_max =
+    req.query.rating_max === undefined ? 5 : req.query.rating_max;
+  let review_min =
+    req.query.review_min === undefined ? 0 : req.query.review_min;
+  let review_max =
+    req.query.review_max === undefined ? 10000 : req.query.review_max;
 
   console.log("sort_value: ", sort_value);
   let sort_category = sort_dict.get(sort_value.split(" ")[0]);
@@ -72,8 +75,10 @@ app.get("/restaurants/english", async (req, res) => {
           { store_name: { [Op.like]: "%" + store_name + "%" } },
           { store_name_english: { [Op.like]: "%" + store_name + "%" } },
         ],
-        score: { [Op.and]: { [Op.gte]: ratingMin, [Op.lte]: ratingMax } },
-        review_cnt: { [Op.and]: { [Op.gte]: reviewMin, [Op.lte]: reviewMax } },
+        score: { [Op.and]: { [Op.gte]: rating_min, [Op.lte]: rating_max } },
+        review_cnt: {
+          [Op.and]: { [Op.gte]: review_min, [Op.lte]: review_max },
+        },
       },
       order: sequelize.random(),
     });
@@ -86,8 +91,10 @@ app.get("/restaurants/english", async (req, res) => {
           { store_name: { [Op.like]: "%" + store_name + "%" } },
           { store_name_english: { [Op.like]: "%" + store_name + "%" } },
         ],
-        score: { [Op.and]: { [Op.gte]: ratingMin, [Op.lte]: ratingMax } },
-        review_cnt: { [Op.and]: { [Op.gte]: reviewMin, [Op.lte]: reviewMax } },
+        score: { [Op.and]: { [Op.gte]: rating_min, [Op.lte]: rating_max } },
+        review_cnt: {
+          [Op.and]: { [Op.gte]: review_min, [Op.lte]: review_max },
+        },
       },
       order: [[sort_category, sort_direction]],
     });

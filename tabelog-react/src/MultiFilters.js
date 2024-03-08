@@ -3,7 +3,7 @@ import axios from "axios";
 import "./style.css";
 import Slider from "react-slider";
 // import { default as ReactSelect } from "react-select";
-import { components } from "react-select";
+// import { components } from "react-select";
 
 const RATING_MIN = 30;
 const RATING_MAX = 50;
@@ -79,7 +79,7 @@ export default function MultiFilters() {
   const [reviewRange, setReviewRange] = useState([REVIEW_MIN, REVIEW_MAX]);
   const [storeName, setStoreName] = useState("");
   const [sortValue, setSortValue] = useState();
-  const [prefectureValue, setPrefectureValue] = useState();
+  // const [prefectureValue, setPrefectureValue] = useState();
   const [items, setData] = useState("");
 
   const baseUrl = "https://tabelog.onrender.com/";
@@ -121,20 +121,44 @@ export default function MultiFilters() {
 
   const [filteredItems, setFilteredItems] = useState([items]);
 
-  useEffect(() => {
-    filterItems();
-  }, [storeName, sortValue, prefectureValue, ratingRange, reviewRange]);
+  useEffect(
+    () => {
+      filterItems();
+    },
+    []
+    // [storeName, sortValue, ratingRange, reviewRange]
+  );
 
   const filterItems = () => {
+    let store_name = storeName === undefined ? "" : storeName;
+    let sort_value = sortValue === undefined ? "Select Sort" : sortValue;
+    let rating_min =
+      ratingRange[0] / 10 === undefined ? 0 : ratingRange[0] / 10;
+    let rating_max =
+      ratingRange[1] / 10 === undefined ? 5 : ratingRange[1] / 10;
+    let review_min = reviewRange[0] === undefined ? 0 : reviewRange[0];
+    let review_max = reviewRange[1] === undefined ? 10000 : reviewRange[1];
+
+    console.log(
+      "store_name: ",
+      store_name,
+      "sort_value: ",
+      sort_value,
+      "ratingrange: ",
+      ratingRange[0] / 10,
+      "reviewrange: ",
+      reviewRange
+    );
+
     axios
       .get(baseUrl + "restaurants/english", {
         params: {
-          store_name: storeName,
-          sort_value: sortValue,
-          ratingMin: ratingRange[0] / 10,
-          reviewMin: reviewRange[0],
-          ratingMax: ratingRange[1] / 10,
-          reviewMax: reviewRange[1],
+          store_name: store_name,
+          sort_value: sort_value,
+          rating_min: rating_min,
+          rating_max: rating_max,
+          review_min: review_min,
+          review_max: review_max,
         },
       })
       .then((responses) => {
@@ -188,11 +212,9 @@ export default function MultiFilters() {
             min={RATING_MIN}
             max={RATING_MAX}
           />
-        </div>
-      </div>
 
-      <div className="wrapper">
-        <div className="box">
+          <br></br>
+          <br></br>
           <h3>
             Reviews <span>Range</span>
           </h3>
