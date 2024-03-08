@@ -9,7 +9,6 @@ const { Op, Default } = require("sequelize");
 const sequelize = require("./database");
 const Restaurant = require("./restaurant");
 const Items = require("./items");
-// const Filters = require("./filters");
 
 sequelize.sync().then(() => console.log("db is ready"));
 
@@ -95,74 +94,6 @@ app.get("/restaurants/english", async (req, res) => {
 
     return res.send(restaurants);
   }
-  // const sortBy = req.query["sortBy"];
-  // const order = req.query["order"];
-  // const prefecture = req.query["prefecture"];
-  // if (sortBy && order && prefecture) {
-  //   const restaurants = await Restaurant.findAll({
-  //     attributes: [
-  //       "store_name",
-  //       "score",
-  //       "address_english",
-  //       "review_cnt",
-  //       "url",
-  //     ],
-  //     order: [[req.query["sortBy"], req.query["order"]]],
-  //     where: {
-  //       address_english: {
-  //         [Op.like]: "%" + req.query["prefecture"] + "%",
-  //       },
-  //     },
-  //   });
-  //   res.send(restaurants);
-  // } else if (sortBy && order) {
-  //   const restaurants = await Restaurant.findAll({
-  //     attributes: [
-  //       "store_name",
-  //       "score",
-  //       "address_english",
-  //       "review_cnt",
-  //       "url",
-  //     ],
-  //     order: [[req.query["sortBy"], req.query["order"]]],
-  //   });
-  //   res.send(restaurants);
-  // } else if (prefecture) {
-  //   const restaurants = await Restaurant.findAll({
-  //     attributes: [
-  //       "store_name",
-  //       "score",
-  //       "address_english",
-  //       "review_cnt",
-  //       "url",
-  //     ],
-  //     where: {
-  //       address_english: {
-  //         [Op.like]: "%" + req.query["prefecture"] + "%",
-  //       },
-  //     },
-  //   });
-  //   res.send(restaurants);
-  // } else {
-  //   const restaurants = await Restaurant.findAll({
-  //     attributes: [
-  //       "store_name",
-  //       "score",
-  //       "address_english",
-  //       "review_cnt",
-  //       "url",
-  //     ],
-  //     limit: 100,
-  //   });
-
-  //   console.log("no query");
-  //   module.exports = restaurants;
-  //   const restaurantsList = Items.getItems(restaurants);
-  //   // const filteredList = Filters.filter(restaurantsList);
-  //   return res.send(restaurants);
-  // }
-
-  // console.log(req.query["sortBy"], req.query["order"]);
 });
 
 app.get("/restaurants/japanese/:id", async (req, res) => {
@@ -171,7 +102,6 @@ app.get("/restaurants/japanese/:id", async (req, res) => {
   });
 
   const valid = schema.validate(req.body);
-  // console.log(valid);
 
   const requestedId = req.params.id;
   const requestedRestaurant = await Restaurant.findOne({
@@ -186,7 +116,6 @@ app.get("/restaurants/english/:id", async (req, res) => {
   });
 
   const requestedId = req.params.id;
-  // console.log(requestedId);
 
   const requestedRestaurant = await Restaurant.findAll({
     where: {
@@ -195,7 +124,6 @@ app.get("/restaurants/english/:id", async (req, res) => {
       },
     },
   });
-  // console.log(requestedRestaurant);
 
   if (requestedRestaurant == null) {
     return res.send(new Restaurant({ store_name: "no match" }));
