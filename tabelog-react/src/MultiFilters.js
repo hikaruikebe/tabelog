@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./style.css";
 import Slider from "react-slider";
-import { default as ReactSelect } from "react-select";
+// import { default as ReactSelect } from "react-select";
 import { components } from "react-select";
 
 const RATING_MIN = 30;
@@ -59,20 +59,20 @@ export const prefectureOptions = {
   "沖縄県 (Okinawa)": "沖縄県",
 };
 
-const DropdownMenu = (props) => {
-  return (
-    <div>
-      <components.Option {...props}>
-        <input
-          type="checkbox"
-          checked={props.isSelected}
-          onChange={() => null}
-        />{" "}
-        <label>{props.label}</label>
-      </components.Option>
-    </div>
-  );
-};
+// const DropdownMenu = (props) => {
+//   return (
+//     <div>
+//       <components.Option {...props}>
+//         <input
+//           type="checkbox"
+//           checked={props.isSelected}
+//           onChange={() => null}
+//         />{" "}
+//         <label>{props.label}</label>
+//       </components.Option>
+//     </div>
+//   );
+// };
 
 export default function MultiFilters() {
   const [ratingRange, setRatingRange] = useState([RATING_MIN, RATING_MAX]);
