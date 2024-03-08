@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/tabelog-react/public/index.html" }
+    { "source": "/(.*)", "destination": "/tabelog-react/src/App.js" }
   ]
 }
