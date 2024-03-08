@@ -1,3 +1,3 @@
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/tabelog-react" }]
-}
+// {
+//   "rewrites": [{ "source": "/(.*)", "destination": "/tabelog-react" }]
+// }
